@@ -328,6 +328,11 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
             $this->_buffer->flushBuffers();
         } catch (Swift_TransportException $e) {
             $this->_throwException($e);
+        } catch (Swift_IoException $e) {
+            $this->_throwException(
+                new Swift_TransportException(
+                    $e->getMessage())
+                );
         }
         $this->_buffer->setWriteTranslations(array());
         $this->executeCommand("\r\n.\r\n", array(250));
